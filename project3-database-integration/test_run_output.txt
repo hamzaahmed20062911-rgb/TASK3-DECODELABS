@@ -1,0 +1,39 @@
+$ uvicorn app.main:app --reload
+INFO:     Will watch for changes in these directories: ['/project3-database-integration']
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process
+INFO:     Started server process
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+
+$ curl -X POST http://127.0.0.1:8000/students -H "Content-Type: application/json" -d '{"full_name":"Alice Johnson","email":"alice@example.com"}'
+{"full_name":"Alice Johnson","email":"alice@example.com","id":1,"created_at":"2026-06-27T13:19:12"}
+
+$ curl -X POST http://127.0.0.1:8000/students -H "Content-Type: application/json" -d '{"full_name":"Bilal Khan","email":"bilal@example.com"}'
+{"full_name":"Bilal Khan","email":"bilal@example.com","id":2,"created_at":"2026-06-27T13:19:12"}
+
+$ curl -X POST http://127.0.0.1:8000/courses -H "Content-Type: application/json" -d '{"title":"Database Systems","code":"CS301","credits":3}'
+{"title":"Database Systems","code":"CS301","credits":3,"id":1,"created_at":"2026-06-27T13:19:12"}
+
+$ curl -X POST http://127.0.0.1:8000/courses -H "Content-Type: application/json" -d '{"title":"Web Development","code":"CS302","credits":4}'
+{"title":"Web Development","code":"CS302","credits":4,"id":2,"created_at":"2026-06-27T13:19:12"}
+
+$ curl http://127.0.0.1:8000/students
+[{"full_name":"Alice Johnson","email":"alice@example.com","id":1,"created_at":"2026-06-27T13:19:12"},{"full_name":"Bilal Khan","email":"bilal@example.com","id":2,"created_at":"2026-06-27T13:19:12"}]
+
+$ curl -X POST http://127.0.0.1:8000/enrollments -H "Content-Type: application/json" -d '{"student_id":1,"course_id":1}'
+{"id":1,"student_id":1,"course_id":1,"enrolled_at":"2026-06-27T13:19:12"}
+
+$ curl http://127.0.0.1:8000/students/1/courses
+{"full_name":"Alice Johnson","email":"alice@example.com","id":1,"created_at":"2026-06-27T13:19:12","courses":[{"title":"Database Systems","code":"CS301","credits":3,"id":1,"created_at":"2026-06-27T13:19:12"}]}
+
+$ curl -X PUT http://127.0.0.1:8000/students/1 -H "Content-Type: application/json" -d '{"full_name":"Alice M. Johnson"}'
+{"full_name":"Alice M. Johnson","email":"alice@example.com","id":1,"created_at":"2026-06-27T13:19:12"}
+
+$ curl -X DELETE http://127.0.0.1:8000/courses/2 -i
+HTTP/1.1 204 No Content
+date: Sat, 27 Jun 2026 13:19:11 GMT
+server: uvicorn
+content-type: application/json
+
+
